@@ -36,9 +36,9 @@ claude
 
 ## Step 3: Read these first (in order)
 
-1. [Architecture and Design Spec](docs/superpowers/specs/2026-05-08-cems-design.md) — the full design we've agreed on. Read this with a skeptical eye.
+1. [Architecture and Design Spec](https://github.com/runloco-dev/cems/blob/main/docs/superpowers/specs/2026-05-08-cems-design.md) — the full design we've agreed on. Read this with a skeptical eye.
 2. [Issue #1 — Design Review](https://github.com/runloco-dev/cems/issues/1) — targeted questions where we most need your corrections.
-3. [Phase 1 Implementation Plan](docs/superpowers/plans/2026-05-08-phase1-enrollment.md) — the build plan for enrollment, waitlist, grading, portal, and Agentforce. Not deployed yet.
+3. [Phase 1 Implementation Plan](https://github.com/runloco-dev/cems/blob/main/docs/superpowers/plans/2026-05-08-phase1-enrollment.md) — the build plan for enrollment, waitlist, grading, portal, and Agentforce. Not deployed yet.
 
 ## Step 4: File corrections before we build
 
@@ -52,7 +52,7 @@ Once your corrections are in, we'll revise the design spec and plan accordingly.
 
 Once the design is validated, tell Claude Code to start building:
 
-> "Use the superpowers:subagent-driven-development skill to execute the Phase 1 plan at docs/superpowers/plans/2026-05-08-phase1-enrollment.md"
+> "Use the superpowers:subagent-driven-development skill to execute the Phase 1 plan at https://github.com/runloco-dev/cems/blob/main/docs/superpowers/plans/2026-05-08-phase1-enrollment.md"
 
 Claude Code will work through the plan task by task, deploying metadata, writing Apex with tests, and checking in for review between tasks.
 
@@ -63,7 +63,7 @@ If you want to run a specific task directly:
 ## Useful Claude Code prompts to start with
 
 **Review the design against your domain knowledge:**
-> "Read the design spec at docs/superpowers/specs/2026-05-08-cems-design.md and ask me questions about whether the data model and workflows match how this facility actually operates. Ask one question at a time."
+> "Read the design spec at https://github.com/runloco-dev/cems/blob/main/docs/superpowers/specs/2026-05-08-cems-design.md and ask me questions about whether the data model and workflows match how this facility actually operates. Ask one question at a time."
 
 **Add missing workflows:**
 > "Based on the existing design spec, help me spec out [workflow you know is missing] and file it as a GitHub issue."

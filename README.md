@@ -25,8 +25,8 @@ The existing system managing the facility's hotel accommodations, conference fac
 
 ## Docs
 
-- [Architecture and Design Spec](docs/superpowers/specs/2026-05-08-cems-design.md)
-- [Phase 1 Implementation Plan](docs/superpowers/plans/2026-05-08-phase1-enrollment.md)
+- [Architecture and Design Spec](https://github.com/runloco-dev/cems/blob/main/docs/superpowers/specs/2026-05-08-cems-design.md)
+- [Phase 1 Implementation Plan](https://github.com/runloco-dev/cems/blob/main/docs/superpowers/plans/2026-05-08-phase1-enrollment.md)
 
 ## Contributing — especially if you know the existing system
 
