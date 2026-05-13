@@ -49,6 +49,17 @@
 
   .lede { font-size: clamp(17px, 2vw, 21px); line-height: 1.6; color: var(--text-muted); max-width: 800px; margin: 0 0 56px; }
   .lede strong { color: var(--text); font-weight: 600; }
+  .lede-stack { max-width: 880px; margin: 40px 0 0; }
+  .lede-sub { font-size: clamp(16px, 1.5vw, 19px); color: var(--text-muted); line-height: 1.65; margin-bottom: 40px; }
+  .lede-sub strong { color: var(--text); font-weight: 600; }
+  .lede-block { margin-bottom: 28px; padding-left: 20px; border-left: 2px solid var(--border-strong); transition: border-color 0.2s; }
+  .lede-block:hover { border-left-color: var(--accent); }
+  .lede-headline { font-family: 'Space Grotesk', sans-serif; font-size: clamp(20px, 2.2vw, 28px); font-weight: 700; color: var(--text); letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 8px; }
+  .lede-headline strong { background: linear-gradient(135deg, var(--accent), var(--violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .lede-body { font-size: clamp(15px, 1.4vw, 17px); color: var(--text-muted); line-height: 1.65; }
+  .lede-body strong { color: var(--accent); font-weight: 600; }
+  .lede-payoff { font-family: 'Space Grotesk', sans-serif; font-size: clamp(30px, 3.5vw, 52px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; margin-top: 40px; background: linear-gradient(135deg, var(--accent), var(--violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .lede-tagline { font-size: clamp(15px, 1.4vw, 18px); color: var(--text-muted); margin-top: 12px; letter-spacing: 0.02em; font-style: italic; }
 
   /* PHASE TIMELINE */
   .section { padding: 80px 0; }
@@ -95,6 +106,8 @@
   .agent-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
   .agent-name { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; color: var(--violet); letter-spacing: -0.01em; margin-bottom: 10px; }
   .agent-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+  .agent-impact { margin-top: 16px; padding: 12px 16px; background: rgba(167,139,250,0.06); border-left: 2px solid var(--violet); border-radius: 0 8px 8px 0; font-size: 13px; color: var(--text); line-height: 1.55; }
+  .agent-impact strong { color: var(--violet); }
 
   /* STACK */
   .stack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
@@ -146,17 +159,37 @@
     <div class="container">
       <div class="badge">
         <span class="dot"></span>
-        Federal Training Facility Platform
+        Design Review &middot; Seeking Domain Expertise
       </div>
       <h1 class="hero-title">
         <span class="gradient">CEMS</span>
-        <span class="sub">One platform. Every part of the facility.</span>
       </h1>
-      <p class="lede">
-        Conference and Event Management Software for a federal training facility.
-        <strong>Hotels, classrooms, conference rooms, training programs, enrollment, badging, grading, and certificates</strong>
-        — currently managed in silos or manually — unified on a single Salesforce Government Cloud Plus platform, FedRAMP High authorized, with Agentforce agents handling the routine so staff handle the exceptions.
-      </p>
+      <div class="lede-stack">
+        <p class="lede-sub">For decades, federal training facilities have run on a patchwork of systems at different levels of maturity. Enrollment in a spreadsheet. Scheduling in email. Lodging in a property management tool. Badging in an access control silo. Each new system added <strong>O&amp;M costs, cloud spend, and burden on the hero developers and support staff</strong> who hold it all together.</p>
+
+        <div class="lede-block">
+          <p class="lede-headline">The <strong>central nervous system</strong> the facility has never had.</p>
+          <p class="lede-body">Sales Cloud as the spine, with native connections to enrollment, scheduling, lodging, badging, grading, and certification. The facility stops needing a separate system for every function.</p>
+        </div>
+
+        <div class="lede-block">
+          <p class="lede-headline">Agentforce handles the <strong>routine</strong>. Staff handle the exceptions.</p>
+          <p class="lede-body">Hundreds of enrollment inquiries answered instantly through the portal. Room and instructor conflicts resolved in minutes, not hours. Badge requests routed with everything pre-populated for security to approve. <strong>Coordinators get their day back for what only humans can do.</strong></p>
+        </div>
+
+        <div class="lede-block">
+          <p class="lede-headline">Six bills become one. <strong>IT stops fixing and starts building</strong>.</p>
+          <p class="lede-body">Six disconnected systems mean six contracts, six support burdens, and six places things can break. One platform replaces all of it. The IT team stops patching gaps between silos and starts <strong>building the next capability the facility actually needs</strong>.</p>
+        </div>
+
+        <div class="lede-block">
+          <p class="lede-headline"><strong>Federal-grade</strong> by default.</p>
+          <p class="lede-body">Salesforce Government Cloud Plus. FedRAMP High. Single-tenant, US-citizen administered. Shield Encryption on every CUI field. Field Audit Trail on every sensitive change. The compliance boundary already covers every product in the stack.</p>
+        </div>
+
+        <p class="lede-payoff">The Federal Training Facility Platform.</p>
+        <p class="lede-tagline">Staff time back. Mission forward.</p>
+      </div>
     </div>
   </div>
 
@@ -164,32 +197,32 @@
   <div class="section">
     <div class="container">
       <div class="section-label">The problem</div>
-      <h2 class="section-title">Seven systems. Zero integration.</h2>
+      <h2 class="section-title">Six systems. Zero integration.</h2>
       <p class="section-sub">Every function at the facility runs on its own disconnected system or on spreadsheets and email. CEMS replaces all of it with one record, one workflow, one audit trail.</p>
       <div class="replaces-grid">
         <div class="replace-item">
-          <div class="replace-old">Manual roster spreadsheets</div>
-          <div class="replace-new"><span>Training enrollment</span> with waitlist, nomination workflow, and agency quota tracking</div>
+          <div class="replace-old">Spreadsheets that break every quarter</div>
+          <div class="replace-new"><span>One enrollment record</span> per trainee, from nomination to certificate</div>
         </div>
         <div class="replace-item">
-          <div class="replace-old">Email chains and calendar blocks</div>
-          <div class="replace-new"><span>Room and instructor scheduling</span> with conflict detection and utilization reporting</div>
+          <div class="replace-old">Email chains and shared calendars</div>
+          <div class="replace-new"><span>Conflict-free scheduling</span> across rooms, instructors, and group events</div>
         </div>
         <div class="replace-item">
           <div class="replace-old">Separate property management system</div>
-          <div class="replace-new"><span>Hotel and lodging</span> inventory, reservations, and assignment linked to training records</div>
+          <div class="replace-new"><span>Lodging linked to training</span> with occupancy reporting in one view</div>
         </div>
         <div class="replace-item">
           <div class="replace-old">Access control silo with no CRM link</div>
-          <div class="replace-new"><span>Tiered badging</span> and access management with clearance reference and ACS integration</div>
+          <div class="replace-new"><span>Tiered badging</span> gated by clearance reference and ACS state</div>
         </div>
         <div class="replace-item">
           <div class="replace-old">Manual grade entry and transcript requests</div>
-          <div class="replace-new"><span>Grading, certificates, and transcripts</span> generated from enrollment records automatically</div>
+          <div class="replace-new"><span>Grades and certificates</span> generated automatically from enrollment records</div>
         </div>
         <div class="replace-item">
           <div class="replace-old">No self-service for agencies or trainees</div>
-          <div class="replace-new"><span>Experience Cloud portal</span> for nominations, enrollment status, and document access</div>
+          <div class="replace-new"><span>Self-service portal</span> for nominations, status, and documents</div>
         </div>
       </div>
     </div>
@@ -230,7 +263,6 @@
             <li>Conflict detection</li>
             <li>Agentforce Scheduling Assistant</li>
           </ul>
-          <span class="phase-status status-next">Not started</span>
         </div>
 
         <div class="phase">
@@ -242,7 +274,6 @@
             <li>Training-linked assignment</li>
             <li>Occupancy reporting</li>
           </ul>
-          <span class="phase-status status-next">Not started</span>
         </div>
 
         <div class="phase">
@@ -255,7 +286,6 @@
             <li>On-campus status tracking</li>
             <li>Agentforce Badging Coordinator</li>
           </ul>
-          <span class="phase-status status-next">Not started</span>
         </div>
 
       </div>
@@ -268,23 +298,26 @@
   <div class="section">
     <div class="container">
       <div class="section-label">Agentforce</div>
-      <h2 class="section-title">Three agents. Staff handle the exceptions.</h2>
-      <p class="section-sub">Each Agentforce agent handles the routine work in its domain. Every agent action is also an invocable Apex method, so it works as a Flow step if a GovCloud+ AI feature is not yet FedRAMP High authorized at deployment time.</p>
+      <h2 class="section-title">Routine work moves to the agent. Staff handle the exceptions.</h2>
+      <p class="section-sub">A coordinator fielding enrollment questions by email and phone. A scheduler manually reconciling rooms and instructors in a spreadsheet. A security officer collecting clearance paperwork before a badge request can even begin. Agentforce makes this the old way. Every agent action is also an invocable Apex method, so it works as a Flow step if a GovCloud+ AI feature is not yet FedRAMP High authorized at deployment time.</p>
       <div class="agent-grid">
         <div class="agent-card">
-          <div class="agent-label">Phase 1</div>
+          <div class="agent-label">Phase 1 &middot; Enrollment</div>
           <div class="agent-name">Enrollment Concierge</div>
           <div class="agent-desc">Answers enrollment questions, checks eligibility and prerequisites, guides trainees and agency nominators through the portal, and surfaces waitlist status without staff involvement.</div>
+          <div class="agent-impact">A course cycle generates hundreds of standard inquiries about eligibility, prerequisites, seat availability, and waitlist position. Every one of those is answered <strong>instantly, 24/7, through the portal</strong>. Coordinators handle policy exceptions and billing disputes. Not inbox triage.</div>
         </div>
         <div class="agent-card">
-          <div class="agent-label">Phase 2</div>
+          <div class="agent-label">Phase 2 &middot; Scheduling</div>
           <div class="agent-name">Scheduling Assistant</div>
           <div class="agent-desc">Finds available rooms and instructors, resolves scheduling conflicts, books group events, and notifies affected parties when changes occur.</div>
+          <div class="agent-impact">Finding an available room, cross-referencing instructor calendars, confirming the booking, and notifying attendees is a <strong>25-minute coordination task per booking</strong>. The agent does it in under two minutes. Schedulers spend their time on facilities planning, not calendar reconciliation.</div>
         </div>
         <div class="agent-card">
-          <div class="agent-label">Phase 4</div>
+          <div class="agent-label">Phase 4 &middot; Badging</div>
           <div class="agent-name">Badging Coordinator</div>
           <div class="agent-desc">Processes badge requests, verifies clearance reference data, routes requests through the approval workflow, and coordinates with the access control system for provisioning.</div>
+          <div class="agent-impact">The agent validates clearance reference data, populates the badge request record, and routes it to security staff with everything already filled in. <strong>Security reviews and approves. They stop being data collectors</strong> and start being decision makers.</div>
         </div>
       </div>
     </div>
@@ -317,11 +350,11 @@
         </div>
         <div class="stack-item">
           <div class="stack-product">Agentforce</div>
-          <div class="stack-purpose">Three domain agents — enrollment, scheduling, badging</div>
+          <div class="stack-purpose">Three domain agents covering enrollment, scheduling, and badging</div>
         </div>
         <div class="stack-item">
           <div class="stack-product">Shield Encryption</div>
-          <div class="stack-purpose">CUI field-level encryption — FedRAMP High requirement</div>
+          <div class="stack-purpose">CUI field-level encryption to meet FedRAMP High</div>
         </div>
         <div class="stack-item">
           <div class="stack-product">Shield Event Monitoring</div>
@@ -341,11 +374,11 @@
   <div class="section">
     <div class="container">
       <div class="cta-box">
-        <div class="cta-title">This design was built from a high-level conversation.</div>
-        <p class="cta-sub">If you know how this facility actually works — the nomination process, the clearance seam, the ACS system, the transcript format — your input is the most valuable thing right now. More valuable than any code.</p>
+        <div class="cta-title">We built the architecture. You know the facility.</div>
+        <p class="cta-sub">The design is real, but it was built from a high-level conversation. You know how the facility actually runs: the nomination process, the clearance seam, the ACS system, the transcript format. Tell us where we got it wrong, before any code gets written.</p>
         <div class="cta-links">
-          <a href="https://github.com/runloco-dev/cems/issues/1" class="cta-link primary" target="_blank">Review the design and file corrections</a>
-          <a href="https://github.com/runloco-dev/cems/blob/main/docs/superpowers/specs/2026-05-08-cems-design.md" class="cta-link secondary" target="_blank">Read the full design spec</a>
+          <a href="https://github.com/runloco-dev/cems/issues/1" class="cta-link primary" target="_blank">Tell us what we got wrong</a>
+          <a href="https://github.com/runloco-dev/cems/blob/main/docs/superpowers/specs/2026-05-08-cems-design.md" class="cta-link secondary" target="_blank">Read the design spec</a>
         </div>
       </div>
     </div>
