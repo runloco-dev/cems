@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CEMS — Conference and Event Management Software</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #030712; --surface: #0f172a; --surface-hover: #1e293b;
+    --border: rgba(255,255,255,0.06); --border-strong: rgba(255,255,255,0.12);
+    --text: #f1f5f9; --text-muted: #94a3b8; --text-dim: #64748b;
+    --accent: #60a5fa; --accent-glow: rgba(96,165,250,0.15);
+    --teal: #2dd4bf; --violet: #a78bfa; --rose: #fb7185; --amber: #fbbf24;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; line-height: 1.6; }
+
+  .bg-grid { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .bg-grid::before { content: ''; position: absolute; inset: -50%; background-image: linear-gradient(rgba(96,165,250,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(96,165,250,0.03) 1px, transparent 1px); background-size: 60px 60px; animation: gridDrift 30s linear infinite; }
+  .bg-grid::after { content: ''; position: absolute; top: -30%; left: -20%; width: 140%; height: 140%; background: radial-gradient(ellipse 800px 600px at 20% 20%, rgba(96,165,250,0.06), transparent), radial-gradient(ellipse 600px 800px at 80% 60%, rgba(167,139,250,0.04), transparent), radial-gradient(ellipse 500px 500px at 50% 90%, rgba(45,212,191,0.03), transparent); animation: auroraShift 20s ease-in-out infinite alternate; }
+  @keyframes gridDrift { to { transform: translate(60px, 60px); } }
+  @keyframes auroraShift { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(-3%,2%) scale(1.02); } 100% { transform: translate(2%,-1%) scale(0.98); } }
+
+  .content { position: relative; z-index: 1; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 0; background: rgba(3,7,18,0.85); backdrop-filter: blur(20px) saturate(1.8); border-bottom: 1px solid var(--border); }
+  nav .container { display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); }
+  .logo-mark { width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--violet)); display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: var(--bg); box-shadow: 0 4px 20px var(--accent-glow); }
+  .logo-text { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 18px; letter-spacing: -0.02em; }
+  .logo-text span { color: var(--accent); }
+  .nav-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 8px; background: rgba(255,255,255,0.02); }
+  .nav-tag span { color: var(--accent); }
+
+  /* HERO */
+  .hero { padding: 160px 0 96px; }
+  .badge { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; background: rgba(96,165,250,0.08); border: 1px solid rgba(96,165,250,0.2); border-radius: 100px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); margin-bottom: 32px; }
+  .badge .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 12px var(--accent); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.85); } }
+
+  h1.hero-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(64px, 10vw, 120px); font-weight: 700; line-height: 0.93; letter-spacing: -0.04em; margin-bottom: 24px; }
+  h1.hero-title .gradient { background: linear-gradient(135deg, var(--accent), var(--violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  h1.hero-title .sub { display: block; font-size: 0.38em; font-weight: 500; color: var(--text-muted); margin-top: 16px; letter-spacing: -0.01em; -webkit-text-fill-color: var(--text-muted); }
+
+  .lede { font-size: clamp(17px, 2vw, 21px); line-height: 1.6; color: var(--text-muted); max-width: 800px; margin: 0 0 56px; }
+  .lede strong { color: var(--text); font-weight: 600; }
+
+  /* PHASE TIMELINE */
+  .section { padding: 80px 0; }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+  .section-label::before { content: ''; width: 20px; height: 1px; background: var(--text-dim); }
+  .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -0.025em; margin-bottom: 12px; }
+  .section-sub { font-size: 16px; color: var(--text-muted); max-width: 620px; margin-bottom: 48px; line-height: 1.65; }
+
+  .phase-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+  @media (max-width: 800px) { .phase-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .phase-grid { grid-template-columns: 1fr; } }
+
+  .phase { padding: 28px 24px; background: var(--surface); border: 1px solid var(--border); position: relative; }
+  .phase:first-child { border-radius: 16px 0 0 16px; }
+  .phase:last-child { border-radius: 0 16px 16px 0; }
+  .phase-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .phase-title { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 10px; }
+  .phase-items { list-style: none; padding: 0; }
+  .phase-items li { font-size: 13px; color: var(--text-dim); line-height: 1.6; padding: 3px 0; border-bottom: 1px solid var(--border); }
+  .phase-items li:last-child { border-bottom: none; }
+  .phase-status { display: inline-block; margin-top: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 3px 8px; border-radius: 4px; }
+  .status-active { background: rgba(96,165,250,0.1); color: var(--accent); border: 1px solid rgba(96,165,250,0.25); }
+  .status-next { background: rgba(255,255,255,0.04); color: var(--text-dim); border: 1px solid var(--border); }
+
+  .phase.active { border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.04); }
+  .phase.active .phase-title { color: var(--accent); }
+  .phase.active .phase-items li { color: var(--text-muted); border-color: rgba(96,165,250,0.1); }
+
+  /* REPLACES GRID */
+  .replaces-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 720px) { .replaces-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .replace-item { padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .replace-old { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--rose); text-decoration: line-through; text-decoration-color: rgba(251,113,133,0.5); margin-bottom: 6px; }
+  .replace-new { font-size: 14px; font-weight: 600; color: var(--text); }
+  .replace-new span { color: var(--accent); }
+
+  /* AGENTS */
+  .agent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 720px) { .agent-grid { grid-template-columns: 1fr; } }
+
+  .agent-card { padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; border-top: 2px solid var(--violet); transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; }
+  .agent-card:hover { border-color: var(--violet); box-shadow: 0 8px 32px rgba(167,139,250,0.1); transform: translateY(-2px); }
+  .agent-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+  .agent-name { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; color: var(--violet); letter-spacing: -0.01em; margin-bottom: 10px; }
+  .agent-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+  /* STACK */
+  .stack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 800px) { .stack-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .stack-item { padding: 18px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+  .stack-product { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .stack-purpose { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+
+  /* CTA */
+  .cta-box { background: var(--surface); border: 1px solid rgba(96,165,250,0.2); border-radius: 20px; padding: 48px; text-align: center; }
+  .cta-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px, 3vw, 32px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .cta-sub { font-size: 16px; color: var(--text-muted); max-width: 540px; margin: 0 auto 32px; line-height: 1.65; }
+  .cta-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .cta-link { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+  .cta-link.primary { background: var(--accent); color: var(--bg); }
+  .cta-link.primary:hover { background: #93c5fd; }
+  .cta-link.secondary { border: 1px solid var(--border-strong); color: var(--text-muted); }
+  .cta-link.secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* SEP */
+  .sep { height: 1px; background: var(--border); margin: 0; }
+
+  /* FOOTER */
+  footer { padding: 48px 0; border-top: 1px solid var(--border); }
+  footer .container { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .footer-logo { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; color: var(--text-muted); }
+  .footer-logo span { color: var(--accent); }
+  .footer-note { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<nav>
+  <div class="container">
+    <a href="/" class="logo">
+      <div class="logo-mark">CE</div>
+      <div class="logo-text"><span>CEMS</span></div>
+    </a>
+    <div class="nav-tag">Salesforce <span>GovCloud+</span> &middot; FedRAMP High</div>
+  </div>
+</nav>
+
+<div class="content">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="container">
+      <div class="badge">
+        <span class="dot"></span>
+        Federal Training Facility Platform
+      </div>
+      <h1 class="hero-title">
+        <span class="gradient">CEMS</span>
+        <span class="sub">One platform. Every part of the facility.</span>
+      </h1>
+      <p class="lede">
+        Conference and Event Management Software for a federal training facility.
+        <strong>Hotels, classrooms, conference rooms, training programs, enrollment, badging, grading, and certificates</strong>
+        — currently managed in silos or manually — unified on a single Salesforce Government Cloud Plus platform, FedRAMP High authorized, with Agentforce agents handling the routine so staff handle the exceptions.
+      </p>
+    </div>
+  </div>
+
+  <!-- WHAT IT REPLACES -->
+  <div class="section">
+    <div class="container">
+      <div class="section-label">The problem</div>
+      <h2 class="section-title">Seven systems. Zero integration.</h2>
+      <p class="section-sub">Every function at the facility runs on its own disconnected system or on spreadsheets and email. CEMS replaces all of it with one record, one workflow, one audit trail.</p>
+      <div class="replaces-grid">
+        <div class="replace-item">
+          <div class="replace-old">Manual roster spreadsheets</div>
+          <div class="replace-new"><span>Training enrollment</span> with waitlist, nomination workflow, and agency quota tracking</div>
+        </div>
+        <div class="replace-item">
+          <div class="replace-old">Email chains and calendar blocks</div>
+          <div class="replace-new"><span>Room and instructor scheduling</span> with conflict detection and utilization reporting</div>
+        </div>
+        <div class="replace-item">
+          <div class="replace-old">Separate property management system</div>
+          <div class="replace-new"><span>Hotel and lodging</span> inventory, reservations, and assignment linked to training records</div>
+        </div>
+        <div class="replace-item">
+          <div class="replace-old">Access control silo with no CRM link</div>
+          <div class="replace-new"><span>Tiered badging</span> and access management with clearance reference and ACS integration</div>
+        </div>
+        <div class="replace-item">
+          <div class="replace-old">Manual grade entry and transcript requests</div>
+          <div class="replace-new"><span>Grading, certificates, and transcripts</span> generated from enrollment records automatically</div>
+        </div>
+        <div class="replace-item">
+          <div class="replace-old">No self-service for agencies or trainees</div>
+          <div class="replace-new"><span>Experience Cloud portal</span> for nominations, enrollment status, and document access</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- PHASES -->
+  <div class="section">
+    <div class="container">
+      <div class="section-label">Build sequence</div>
+      <h2 class="section-title">Four phases to full capability</h2>
+      <p class="section-sub">Each phase delivers operational value independently. Phase 1 ships a working enrollment and training management system. Subsequent phases layer on scheduling, lodging, and badging.</p>
+      <div class="phase-grid">
+
+        <div class="phase active">
+          <div class="phase-num">Phase 1</div>
+          <div class="phase-title">Enrollment</div>
+          <ul class="phase-items">
+            <li>People and agency data model</li>
+            <li>Training program catalog</li>
+            <li>Nomination and self-service enrollment</li>
+            <li>Waitlist management</li>
+            <li>Grading and certificates</li>
+            <li>Agentforce Enrollment Concierge</li>
+            <li>Shield encryption + compliance scaffolding</li>
+          </ul>
+          <span class="phase-status status-active">In planning</span>
+        </div>
+
+        <div class="phase">
+          <div class="phase-num">Phase 2</div>
+          <div class="phase-title">Scheduling</div>
+          <ul class="phase-items">
+            <li>Room and facility inventory</li>
+            <li>Instructor calendar management</li>
+            <li>Group event bookings</li>
+            <li>Conflict detection</li>
+            <li>Agentforce Scheduling Assistant</li>
+          </ul>
+          <span class="phase-status status-next">Not started</span>
+        </div>
+
+        <div class="phase">
+          <div class="phase-num">Phase 3</div>
+          <div class="phase-title">Lodging</div>
+          <ul class="phase-items">
+            <li>Hotel room inventory</li>
+            <li>Reservation management</li>
+            <li>Training-linked assignment</li>
+            <li>Occupancy reporting</li>
+          </ul>
+          <span class="phase-status status-next">Not started</span>
+        </div>
+
+        <div class="phase">
+          <div class="phase-num">Phase 4</div>
+          <div class="phase-title">Badging</div>
+          <ul class="phase-items">
+            <li>Tiered access management</li>
+            <li>Clearance reference integration</li>
+            <li>ACS hardware integration</li>
+            <li>On-campus status tracking</li>
+            <li>Agentforce Badging Coordinator</li>
+          </ul>
+          <span class="phase-status status-next">Not started</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- AGENTS -->
+  <div class="section">
+    <div class="container">
+      <div class="section-label">Agentforce</div>
+      <h2 class="section-title">Three agents. Staff handle the exceptions.</h2>
+      <p class="section-sub">Each Agentforce agent handles the routine work in its domain. Every agent action is also an invocable Apex method, so it works as a Flow step if a GovCloud+ AI feature is not yet FedRAMP High authorized at deployment time.</p>
+      <div class="agent-grid">
+        <div class="agent-card">
+          <div class="agent-label">Phase 1</div>
+          <div class="agent-name">Enrollment Concierge</div>
+          <div class="agent-desc">Answers enrollment questions, checks eligibility and prerequisites, guides trainees and agency nominators through the portal, and surfaces waitlist status without staff involvement.</div>
+        </div>
+        <div class="agent-card">
+          <div class="agent-label">Phase 2</div>
+          <div class="agent-name">Scheduling Assistant</div>
+          <div class="agent-desc">Finds available rooms and instructors, resolves scheduling conflicts, books group events, and notifies affected parties when changes occur.</div>
+        </div>
+        <div class="agent-card">
+          <div class="agent-label">Phase 4</div>
+          <div class="agent-name">Badging Coordinator</div>
+          <div class="agent-desc">Processes badge requests, verifies clearance reference data, routes requests through the approval workflow, and coordinates with the access control system for provisioning.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- STACK -->
+  <div class="section">
+    <div class="container">
+      <div class="section-label">Platform</div>
+      <h2 class="section-title">Salesforce Government Cloud Plus</h2>
+      <p class="section-sub">FedRAMP High authorized. Single-tenant. US-citizen administered. Every product in the stack is covered under the same compliance boundary.</p>
+      <div class="stack-grid">
+        <div class="stack-item">
+          <div class="stack-product">Service Cloud</div>
+          <div class="stack-purpose">Case management, service console, staff agent workspace</div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-product">Sales Cloud</div>
+          <div class="stack-purpose">Agency and sponsor accounts, event booking pipeline</div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-product">Experience Cloud</div>
+          <div class="stack-purpose">Self-service portal for trainees and agency nominators</div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-product">Salesforce Scheduler</div>
+          <div class="stack-purpose">Room, instructor, and facility calendar management</div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-product">Agentforce</div>
+          <div class="stack-purpose">Three domain agents — enrollment, scheduling, badging</div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-product">Shield Encryption</div>
+          <div class="stack-purpose">CUI field-level encryption — FedRAMP High requirement</div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-product">Shield Event Monitoring</div>
+          <div class="stack-purpose">Full API and login audit trail, feeds agency SIEM</div>
+        </div>
+        <div class="stack-item">
+          <div class="stack-product">Field Audit Trail</div>
+          <div class="stack-purpose">10-year retention on sensitive field changes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- CTA -->
+  <div class="section">
+    <div class="container">
+      <div class="cta-box">
+        <div class="cta-title">This design was built from a high-level conversation.</div>
+        <p class="cta-sub">If you know how this facility actually works — the nomination process, the clearance seam, the ACS system, the transcript format — your input is the most valuable thing right now. More valuable than any code.</p>
+        <div class="cta-links">
+          <a href="https://github.com/runloco-dev/cems/issues/1" class="cta-link primary" target="_blank">Review the design and file corrections</a>
+          <a href="https://github.com/runloco-dev/cems/blob/main/docs/superpowers/specs/2026-05-08-cems-design.md" class="cta-link secondary" target="_blank">Read the full design spec</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-logo"><span>CEMS</span> &middot; Conference and Event Management Software</div>
+    <div class="footer-note">Salesforce Government Cloud Plus &middot; FedRAMP High &middot; CUI and below</div>
+  </div>
+</footer>
+
+</body>
+</html>
